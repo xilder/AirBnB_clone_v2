@@ -8,6 +8,7 @@ from sqlalchemy import Column, String, DateTime
 from os import getenv
 
 Base = declarative_base()
+time_fmt = "%Y-%m-%dT%H:%M:%S.%f"
 
 
 class BaseModel:
@@ -24,10 +25,11 @@ class BaseModel:
         if kwargs:
             for k, v in kwargs.items():
                 if k != "__class__":
-                    if k == "created_at" or k == "updated_at":
-                        setattr(self, k, datetime.fromisoformat(v))
-                    else:
-                        setattr(self, k, v)
+                    setattr(self, k, v)
+            if type(self.created_at) is str:
+                self.created_at = datetime.strptime(self.created_at, time_fmt)
+            if type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(self.updated_at, time_fmt)
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -45,8 +47,6 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = dict(self.__dict__)
         dictionary['__class__'] = self.__class__.__name__
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
         if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
         return dictionary
