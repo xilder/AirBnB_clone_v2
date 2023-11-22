@@ -18,14 +18,6 @@ class DBStorage:
 
     __engine = None
     __session = None
-    all_classes = (
-#            Amenity,
-            City,
-#           Place,
-            State,
-#           Review,
-#           User
-        )
 
     def __init__(self):
         """initialises the class"""
@@ -46,7 +38,7 @@ class DBStorage:
         instances
         """
         dictionary = {}
-        classes = (State, City)
+        classes = (State, City, User)
         if cls is not None:
             classes = (cls)
         for cls_type in classes:
