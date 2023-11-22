@@ -38,16 +38,17 @@ class BaseModel:
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        models.storage.new(self)
+        from models import storage
+        storage.new(self)
         self.updated_at = datetime.now()
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
         dictionary.update({'__class__':
-            (str(type(self)).split('.')[-1]).split('\'')[0]})
+                          (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         if '_sa_instance_state' in dictionary:
@@ -58,4 +59,5 @@ class BaseModel:
         """
         deletes the obj from file storage
         """
-        models.storage.delete(self)
+        from models import storage
+        storage.delete(self)
