@@ -38,7 +38,7 @@ class DBStorage:
         instances
         """
         dictionary = {}
-        classes = (State, City, User, Place)
+        classes = (State, City, User, Place, Review)
         if cls is not None:
             classes = (cls)
         for cls_type in classes:
