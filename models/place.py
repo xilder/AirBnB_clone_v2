@@ -1,9 +1,20 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Float, Integer, String, Column, ForeignKey
+from sqlalchemy import Float, Integer, String, Column, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from os import getenv
+
+
+metadata = Base.metadata
+place_amenity = Table('place_amenity',
+                      metadata,
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -29,6 +40,9 @@ class Place(BaseModel, Base):
     reviews = relationship('Review', backref='places',
                            cascade='all, delete-orphan')
     amenity_ids = []
+    amenities = relationship('Amenity', secondary=place_amenity,
+                             viewonly=False
+                             ) if getenv('HBNB_TYPE_STORAGE') == 'db' else None
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
@@ -42,4 +56,17 @@ class Place(BaseModel, Base):
 
             return reviews
 
-
+        @property
+        def amenities(self):
+            """retrieves amenities that are related to this instance by id"""
+            from models import storage
+            amenities = []
+            for amenity in storage.all(Amenity).values():
+                if amenity.id in self.amenity_id:
+                    amenities.append(amenity)
+            return amenities
+        @amenities.setter
+        def amenities(self, value):
+            """adds an amenity"""
+            if type(value) is Amenity and value.id not in self.amenity_ids:
+                self.amenity_ids.append(value.id)
