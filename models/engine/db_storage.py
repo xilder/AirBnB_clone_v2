@@ -18,14 +18,14 @@ class DBStorage:
 
     __engine = None
     __session = None
-    all_classes = {
-#            'Amenity': Amenity,
-            'City': City,
-#           'Place': Place,
-            'State': State,
-#            'Review': Review,
-#            'User': User
-            }
+    all_classes = (
+#            Amenity,
+            City,
+#           Place,
+            State,
+#           Review,
+#           User
+        )
 
     def __init__(self):
         """initialises the class"""
@@ -46,14 +46,11 @@ class DBStorage:
         instances
         """
         dictionary = {}
-        if cls is None:
-            for cls in self.all_classes.values():
-                for obj in self.__session.query(cls).all():
-                    key = f"{obj.__class__.__name__}.{obj.id}"
-                    dictionary[key] = obj
-        else:
-            cls = self.all_classes.get(cls, None)
-            for obj in self.__session.query(cls).all():
+        classes = (State, City)
+        if cls is not None:
+            classes = (cls)
+        for cls_type in classes:
+            for obj in self.__session.query(cls_type).all():
                 key = f"{obj.__class__.__name__}.{obj.id}"
                 dictionary[key] = obj
         return dictionary
@@ -79,7 +76,11 @@ class DBStorage:
 
     def new(self, obj):
         """adds new obj to the database"""
-        self.__session.add(obj)
+        try:
+            self.__session.add(obj)
+        except Exception as ex:
+            self.__session.rollback()
+            raise ex
 
     def save(self):
         """commits changes to the database"""
