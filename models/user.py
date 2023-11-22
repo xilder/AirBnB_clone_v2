@@ -19,5 +19,5 @@ class User(BaseModel, Base):
                        ) if getenv('HBNB_TYPE_STORAGE') == 'db' else ''
     places = relationship('Place', backref='users',
                           cascade='all, delete-orphan')
-    reviews = relationship('Review', bacref='users',
+    reviews = relationship('Review', backref='users',
                            cascade='all, delete-orphan')
