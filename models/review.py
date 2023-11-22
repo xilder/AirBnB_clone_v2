@@ -13,4 +13,4 @@ class Review(BaseModel, Base):
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False
                      ) if getenv('HBNB_TYPE_STORAGE') == 'db' else ''
     text = Column(String(1024), nullable=False
-                  ) if getenv('HBNB_DEV_DB') == 'db' else ''
+                  ) if getenv('HBNB_TYPE_STORAGE') == 'db' else ''
