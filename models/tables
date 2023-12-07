@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat /home/AirBnB_clone_v2/tables_show.sql | mysql -hlocalhost -uroot -p hbnb_dev_db

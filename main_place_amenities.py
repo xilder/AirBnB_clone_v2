@@ -2,7 +2,7 @@
 """ Test link Many-To-Many Place <> Amenity
 """
 from models import *
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.__init__ import storage
 from models.user import User
 from models.place import Place

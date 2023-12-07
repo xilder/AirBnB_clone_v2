@@ -7,15 +7,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DATETIME
 from os import getenv
 
-Base = declarative_base()
+if getenv("HBNB_TYPE_STORAGE") == 'db':
+    Base = declarative_base()
+else:
+    Base = object
 time_fmt = "%Y-%m-%dT%H:%M:%S.%f"
 
 
 class BaseModel:
     """A base class for all hbnb models"""
-    id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DATETIME, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DATETIME, nullable=False, default=datetime.utcnow)
+    if getenv("HBNB_TYPE_STORAGE") == 'db':
+        id = Column(String(60), primary_key=True, nullable=False)
+        created_at = Column(DATETIME, nullable=False, default=datetime.utcnow)
+        updated_at = Column(DATETIME, nullable=False, default=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -27,9 +31,9 @@ class BaseModel:
                 if k != "__class__":
                     setattr(self, k, v)
             if type(self.created_at) is str:
-                self.created_at = datetime.strptime(self.created_at, time_fmt)
+                    self.created_at = datetime.strptime(self.created_at, time_fmt)
             if type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(self.updated_at, time_fmt)
+                    self.updated_at = datetime.strptime(self.updated_at, time_fmt)
 
     def __str__(self):
         """Returns a string representation of the instance"""

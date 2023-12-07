@@ -7,8 +7,8 @@ from os import getenv
 
 class Amenity(BaseModel, Base):
     """Amenities available at a Place"""
-    __tablename__ = 'amenities'
-    name = Column(String(128), nullable=False
-                  ) if getenv('HBNB_TYPE_STORAGE') == 'db' else ''
-    place_amenities = relationship('Place', secondary='place_amenity',
-                                   back_populates='amenities')
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'amenities'
+        name = Column(String(128), nullable=False)
+    else:
+        name = ''

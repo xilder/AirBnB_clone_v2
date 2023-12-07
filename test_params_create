@@ -1,4 +1,3 @@
-cat test_params_create
 create State name="California"
 create State name="Arizona"
 all State
