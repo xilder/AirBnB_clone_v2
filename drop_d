@@ -1,1 +1,0 @@
-echo "DROP DATABASE IF EXISTS hbnb_dev_db; SHOW DATABASES;" | mysql -hlocalhost -uroot -p
