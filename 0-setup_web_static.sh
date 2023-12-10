@@ -35,12 +35,12 @@ ALIAS=\
 	index index.html index.htm;
 	error_page 404 /404.html;
 
-	location /hbnb_static/ {
-		alias /data/web_static/current/;
-	}
 	location / {
 		root /var/www/html/;
 		try_files \$uri \$uri/ =404;
+	}
+	location /hbnb_static/ {
+		alias /data/web_static/current/;
 	}
 }
 "
