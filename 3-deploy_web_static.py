@@ -3,13 +3,13 @@
 generates a .tgz archive from the contents of the
 web_static folder of your AirBnB Clone repo
 """
-from fabric.api import local, run, put, env
+from fabric.api import local, run, put, env, runs_once
 from datetime import datetime
 from os import path
 
 env.hosts = ["100.25.139.50", "54.172.110.198"]
 
-
+@runs_once
 def do_pack():
     """generates a tgz archive"""
     try:
@@ -28,10 +28,10 @@ def do_deploy(archive_path):
     Args:
         archive_path (str): The path to the archived static files.
     """
+    
+    if not path.exists(archive_path):
+        return False
     try:
-        if not path.exists(archive_path):
-            return False
-
         archive_name = path.basename(archive_path)
         folder_name = archive_name.replace(".tgz", "")
         folder_path = f"/data/web_static/releases/{folder_name}/"

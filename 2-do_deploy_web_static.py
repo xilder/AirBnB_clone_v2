@@ -15,13 +15,13 @@ def do_deploy(archive_path):
     Args:
         archive_path (str): The path to the archived static files.
     """
-    try:
-        if not path.exists(archive_path):
-            return False
+    if not path.exists(archive_path):
+       return False
 
-        archive_name = path.basename(archive_path)
-        folder_name = archive_name.replace(".tgz", "")
-        folder_path = f"/data/web_static/releases/{folder_name}/"
+    archive_name = path.basename(archive_path)
+    folder_name = archive_name.replace(".tgz", "")
+    folder_path = f"/data/web_static/releases/{folder_name}/"
+    try:
         put(archive_path, f"/tmp/")
         run(f"sudo mkdir -p {folder_path}")
         run(f"sudo tar -xzf /tmp/{archive_name} -C {folder_path}")
