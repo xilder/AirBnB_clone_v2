@@ -37,8 +37,8 @@ def python_text(text="is cool"):
 
 @app.route("/number/<int:n>", strict_slashes=False)
 def number_n(n):
-     """Returns a given string"""
-     return(f"{n} is a number")
+    """Returns a given string"""
+    return(f"{n} is a number")
 
 
 if __name__ == "__main__":
