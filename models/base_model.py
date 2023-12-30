@@ -31,9 +31,9 @@ class BaseModel:
                 if k != "__class__":
                     setattr(self, k, v)
             if type(self.created_at) is str:
-                    self.created_at = datetime.strptime(self.created_at, time_fmt)
+                self.created_at = datetime.strptime(self.created_at, time_fmt)
             if type(self.updated_at) is str:
-                    self.updated_at = datetime.strptime(self.updated_at, time_fmt)
+                self.updated_at = datetime.strptime(self.updated_at, time_fmt)
 
     def __str__(self):
         """Returns a string representation of the instance"""

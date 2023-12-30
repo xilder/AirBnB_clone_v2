@@ -5,6 +5,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from os import getenv
 
+
 class Amenity(BaseModel, Base):
     """Amenities available at a Place"""
     if getenv('HBNB_TYPE_STORAGE') == 'db':

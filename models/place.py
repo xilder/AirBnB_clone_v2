@@ -19,6 +19,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
                                  ForeignKey('amenities.id'),
                                  primary_key=True, nullable=False))
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -34,10 +35,9 @@ class Place(BaseModel, Base):
         latitude = Column(Float)
         longitude = Column(Float)
         reviews = relationship('Review', backref='places',
-                           cascade='all, delete-orphan')
+                               cascade='all, delete-orphan')
         amenities = relationship('Amenity', secondary='place_amenity',
-                                 viewonly=False
-                                 ) if getenv('HBNB_TYPE_STORAGE') == 'db' else None
+                                 viewonly=False)
     else:
         city_id = ""
         user_id = ""
@@ -72,6 +72,7 @@ class Place(BaseModel, Base):
                 if amenity.id in self.amenity_ids:
                     amenities.append(amenity)
             return amenities
+
         @amenities.setter
         def amenities(self, value):
             """adds an amenity"""
