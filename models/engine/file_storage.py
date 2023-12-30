@@ -63,3 +63,7 @@ class FileStorage:
         if obj is not None:
             del self.__objects[f"{obj.__class__.__name__}.{obj.id}"]
             self.save()
+
+    def close(self):
+        """deserialises JSON files to object"""
+        self.reload()

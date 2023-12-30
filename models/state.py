@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
@@ -19,7 +20,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """fs getter attribute that returns City instances"""
-            values_city = models.storage.all("City").values()
+            values_city = models.storage.all(City).values()
             list_city = []
             for city in values_city:
                 if city.state_id == self.id:

@@ -13,6 +13,16 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 
 
+name2class = {
+        'Amenity': Amenity,
+        'City': City,
+        'Place': Place,
+        'State': State,
+        'Review': Review,
+        'User': User
+        }
+
+
 class DBStorage:
     """defines a class to manage the database of the hbnb clone"""
 
@@ -37,15 +47,19 @@ class DBStorage:
         returns all instances of the class if given else returns all
         instances
         """
-        dictionary = {}
-        classes = (State, City, User, Place, Review, Amenity)
-        if cls is not None:
-            classes = (cls)
-        for cls_type in classes:
-            for obj in self.__session.query(cls_type).all():
-                key = f"{obj.__class__.__name__}.{obj.id}"
-                dictionary[key] = obj
-        return dictionary
+        if not self.__session:
+            self.reload()
+        objects = {}
+        if type(cls) == str:
+            cls = name2class.get(cls, None)
+        if cls:
+            for obj in self.__session.query(cls):
+                objects[obj.__class__.__name__ + '.' + obj.id] = obj
+        else:
+            for cls in name2class.values():
+                for obj in self.__session.query(cls):
+                    objects[obj.__class__.__name__ + '.' + obj.id] = obj
+        return objects
 
     def reload(self):
         """creates all the table of the database"""
