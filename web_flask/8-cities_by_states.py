@@ -16,13 +16,17 @@ def teardown(exc):
     storage.close()
 
 
-@app.route("/states_list", strict_slashes=False)
+@app.route("/cities_by_states", strict_slashes=False)
 def state_list():
     """Returns a given string"""
     states = storage.all(State)
     states = [state for state in states.values()]
     states = sorted(states, key=lambda val: val.name)
-    return render_template("7-states_list.html", states=states)
+    sorted_states = {}
+    for state in states:
+        sorted_states[state] = sorted(state.cities, key=lambda val: val.name)
+    return render_template("8-cities_by_states.html",
+                           sorted_states=sorted_states)
 
 
 if __name__ == "__main__":
