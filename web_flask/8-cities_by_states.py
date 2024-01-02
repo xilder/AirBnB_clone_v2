@@ -20,13 +20,7 @@ def teardown(exc):
 def state_list():
     """Returns a given string"""
     states = storage.all(State)
-    states = [state for state in states.values()]
-    states = sorted(states, key=lambda val: val.name)
-    sorted_states = {}
-    for state in states:
-        sorted_states[state] = sorted(state.cities, key=lambda val: val.name)
-    return render_template("8-cities_by_states.html",
-                           sorted_states=sorted_states)
+    return render_template("8-cities_by_states.html", states=states)
 
 
 if __name__ == "__main__":

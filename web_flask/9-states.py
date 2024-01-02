@@ -26,9 +26,9 @@ def state_list(id=None):
     else:
         for state in states.values():
             if state.id == id:
-                return render_template("9-states.html", states=state, mode="id")
+                return render_template("9-states.html",
+                                       states=state, mode="id")
         return render_template("9-states.html", states=None, mode="none")
-
 
 
 if __name__ == "__main__":
