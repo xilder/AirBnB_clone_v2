@@ -24,11 +24,13 @@
 						{% for state in states.values()|sort(attribute="name") %}
 						<li>
 							<h2>{{ state.name }}</h2>
+							{% if state.cities|length > 0 %}
 							<ul>
 								{% for city in state.cities|sort(attribute="name") %}
 								<li><h4>{{ city.name }}</h4></li>
 								{% endfor %}
 							</ul>
+							{% endif %}
 						</li>
 						{% endfor %}
 					</ul>
