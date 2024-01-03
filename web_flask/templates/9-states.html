@@ -4,14 +4,14 @@
 		<TITLE>HBNB</TITLE>
 	</HEAD>
 	<BODY>
-		{% if mode == "all" %}
+		{% if mode == "id" %}
 			<H1>States</H1>
 			<UL>
 				{% for state in states.values()|sort(attribute='name') %}
 				<LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
 				{% endfor %}
 			</UL>
-		{% elif mode == "id" %}
+		{% elif mode == "all" %}
 			<H1>State: {{ states.name }}</H1>
 			<h3>Cities:</h3>
 			<ul>
